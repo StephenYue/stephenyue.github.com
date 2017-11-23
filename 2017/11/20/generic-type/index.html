@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>JAVA泛型 | Stephen Yue&#39;s Blog!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="泛型是JDK 1.5的一项新特性，它的本质是参数化类型（Parameterized Type），即所操作的数据类型在定义时被指定为一个参数。当我们使用的时候给这个参数指定不同的对象类型，就可以处理不同的对象。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口和泛型方法。">
+<meta name="keywords" content="JAVA,泛型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA泛型">
+<meta property="og:url" content="https://www.StephenYue.com/2017/11/20/generic-type/index.html">
+<meta property="og:site_name" content="Stephen Yue&#39;s Blog!">
+<meta property="og:description" content="泛型是JDK 1.5的一项新特性，它的本质是参数化类型（Parameterized Type），即所操作的数据类型在定义时被指定为一个参数。当我们使用的时候给这个参数指定不同的对象类型，就可以处理不同的对象。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口和泛型方法。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-11-23T14:15:30.744Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA泛型">
+<meta name="twitter:description" content="泛型是JDK 1.5的一项新特性，它的本质是参数化类型（Parameterized Type），即所操作的数据类型在定义时被指定为一个参数。当我们使用的时候给这个参数指定不同的对象类型，就可以处理不同的对象。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口和泛型方法。">
+    
+
+    
+        <link rel="alternate" href="/" title="Stephen Yue&#39;s Blog!" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Stephen Yue&#39;s Blog!</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">Stenhen Yue</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/StephenYue/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                1
+                <span>post</span>
+            </div>
+            <div class="article-info-block">
+                2
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/StenhenYue/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-generic-type" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            JAVA泛型
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/11/20/generic-type/">
+            <time datetime="2017-11-20T14:12:12.428Z" itemprop="datePublished">2017-11-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/基础知识/">基础知识</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JAVA/">JAVA</a>, <a class="tag-link" href="/tags/泛型/">泛型</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>泛型是JDK 1.5的一项新特性，它的本质是参数化类型（Parameterized Type），即所操作的数据类型在定义时被指定为一个参数。当我们使用的时候给这个参数指定不同的对象类型，就可以处理不同的对象。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口和泛型方法。</p>
+<a id="more"></a>
+<h2 id="一、泛型实现方式"><a href="#一、泛型实现方式" class="headerlink" title="一、泛型实现方式"></a>一、泛型实现方式</h2><p>泛型声明方式：&lt;占位符&gt;<br>占位符有两大类：</p>
+<ol>
+<li>普通占位符，E, T, K, V一般是单字母大写，表示接收特定的类型。</li>
+<li>通用占位符，也叫通配符，占位符中包含“?”问号，表示接任意数据类型或者指定范围数据类型。</li>
+</ol>
+<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>泛型类和普通类的区别就是类定义时，在类名后加上泛型声明。泛型类的内部成员、方法就可以使用声明的参数类型。泛型类最常见的用途就是作为容纳不同数据类型的容器类，比如Java集合容器类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T value;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p>和泛型类一样，泛型接口在接口名后添加泛型声明，接口方法就可以直接使用声明的参数类型。<br>实现类在实现泛型接口时需要指明具体的参数类型，不然默认类型是 Object，这就失去了泛型接口的意义。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">genericInterface</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">K <span class="title">getKey</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">V <span class="title">getValue</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>未指明类型的实现类，默认是 Object 类型：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericClass</span> <span class="keyword">implements</span> <span class="title">genericInterface</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>指明了类型的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericClass</span> <span class="keyword">implements</span> <span class="title">genericInterface</span>&lt;<span class="title">String</span>, <span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>泛型方法指的是使用泛型的方法。如果这个方法所在的类是个泛型类，直接使用类声明的参数类型。</p>
+<p>如果这个方法所在的类不是泛型类或者他想要处理不同于泛型类所声明的参数类型，这时候我们就需要使用泛型方法。即在方法前加入泛型声明，方法就可以直接使用声明的参数类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object value;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getValue</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (T)value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(Object value)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法getValue()就是泛型方法，调用代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GenericClass genericClass = <span class="keyword">new</span> GenericClass();</span><br><span class="line">genericClass.setValue(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line">Integer value = genericClass.getValue();</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、泛型的优点"><a href="#二、泛型的优点" class="headerlink" title="二、泛型的优点"></a>二、泛型的优点</h2><h3 id="数据类型安全"><a href="#数据类型安全" class="headerlink" title="数据类型安全"></a>数据类型安全</h3><p>泛型的主要目的通过参数类型检查，提高JAVA程序数据类型的安全，提早发现错误，避免ClassCastException 异常发生。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"test generic"</span>);</span><br><span class="line">list.add(<span class="number">123</span>);<span class="comment">// 注：123会转换成Integer对象</span></span><br><span class="line">list.add(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<p>当不实用泛型的时候，上面代码的使用是被允许的，我们可以放入任何对象，当我们按照某种对象类型去取数据就会出现ClassCastException 异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span></span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"test generic"</span>);</span><br><span class="line"><span class="comment">//list.add(123);</span></span><br><span class="line">list.add(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<p>List是泛型接口，当我们这样使用的时候，“123”这个元素是不被允许使用的。</p>
+<h3 id="消除类型转换"><a href="#消除类型转换" class="headerlink" title="消除类型转换"></a>消除类型转换</h3><p>当我们不使用泛型时，每次取出集合中的元素都需要我们强制转换成我们需要的元素。（Object-&gt;Class Type）。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"test generic"</span>);</span><br><span class="line">String s = (String) list.get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>“test generic”存入list是一个Object的对象，取出来是我们需要转换成我们要的字符串String类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"test generic"</span>);</span><br><span class="line">String s = list.get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>使用泛型后list.get(0)中取出来的数据类型，就是我们存入时的String类型。</p>
+<h3 id="简码，提高效率"><a href="#简码，提高效率" class="headerlink" title="简码，提高效率"></a>简码，提高效率</h3><p>通过泛型的应用，做到了简码，而且JVM中类文件也相应的减少。JVM几乎没有做任何的更改，所有的类型校验，类型转换都是在编译器阶段完成。</p>
+<h2 id="三、通配符"><a href="#三、通配符" class="headerlink" title="三、通配符"></a>三、通配符</h2><h3 id="无限制通配符-lt-gt"><a href="#无限制通配符-lt-gt" class="headerlink" title="无限制通配符&lt;?&gt;"></a>无限制通配符&lt;?&gt;</h3><p>定义时不关心或者不确定实际要操作的数据是什么类型，可以使用无限制通配符（尖括号里一个问号，即 &lt;?&gt; ），表示可以持有任何类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericClass</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"GenericClass&#123;"</span> +</span><br><span class="line">                <span class="string">"data="</span> + data +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">泛型类定义</span><br><span class="line">``` java</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(GenericClass&lt;?&gt; context)</span></span>&#123;</span><br><span class="line">     System.out.println(context);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">通配符定义的方法参数类型 </span><br><span class="line">``` java</span><br><span class="line">GenericClass&lt;Integer&gt; integerGenericClass = <span class="keyword">new</span> GenericClass&lt;&gt;();</span><br><span class="line">integerGenericClass.setData(<span class="number">123</span>);</span><br><span class="line">GenericClass&lt;String&gt; stringGenericClass = <span class="keyword">new</span> GenericClass&lt;&gt;();</span><br><span class="line">stringGenericClass.setData(<span class="string">"123"</span>);</span><br><span class="line">print(integerGenericClass);</span><br><span class="line">print(stringGenericClass);</span><br></pre></td></tr></table></figure></p>
+<p>使用时?是一个万能的类型，T只能是具体的类型</p>
+<h3 id="上界通配符-lt-extends-E-gt"><a href="#上界通配符-lt-extends-E-gt" class="headerlink" title="上界通配符 &lt;? extends E&gt;"></a>上界通配符 &lt;? extends E&gt;</h3><p>在类型参数中使用extends表示这个泛型中的参数必须是 E 或者 E 的子类，这样有两个好处：</p>
+<ol>
+<li><p>如果传入的类型不是E或者E的子类，编辑不成功</p>
+</li>
+<li><p>泛型中可以使用E的方法，要不然还得强转成E才能使用</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Number&gt; list = <span class="keyword">new</span> ArrayList&lt;Number&gt;()&#123;&#123;add(<span class="keyword">new</span> Integer(<span class="number">456</span>));add(<span class="keyword">new</span> Long(<span class="number">456L</span>)); &#125;&#125;;</span><br><span class="line">list.add(<span class="keyword">null</span>);</span><br><span class="line"><span class="comment">//list.add(new Integer(123));</span></span><br><span class="line"><span class="comment">//list.add(new Long(123L));</span></span><br><span class="line">System.out.println(list.size());</span><br><span class="line">Number number = list.get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>当使用上边界通配符时，是不允许往里存数据的，不确定具体元素类型。</p>
+<h3 id="下界通配符-lt-super-E-gt"><a href="#下界通配符-lt-super-E-gt" class="headerlink" title="下界通配符 &lt; ? super E&gt;"></a>下界通配符 &lt; ? super E&gt;</h3><p>在类型参数中使用super表示这个泛型中的参数必须是E或者E的父类。</p>
+<p>用于灵活写入或比较，使得对象可以写入父类型的容器，使得父类型的比较方法可以应用于子类对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? <span class="keyword">super</span> C&gt; list = <span class="keyword">new</span> ArrayList&lt;B&gt;()&#123;&#123;add(<span class="keyword">new</span> B()); add(<span class="keyword">new</span> C());&#125;&#125;;</span><br><span class="line">list.add(<span class="keyword">null</span>);</span><br><span class="line">list.add(<span class="keyword">new</span> C());</span><br><span class="line">list.add(<span class="keyword">new</span> B());</span><br><span class="line"><span class="comment">//list.add(new A());</span></span><br><span class="line">Object object = list.get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>C是B的子类，B是A的子类。当使用下界通配符时，是允许存放E和E的子对象数据的，因为子类对象的引用可以赋值给父类对象的引用(顶级父类是Object)，所以取出来的数据类型是Object.</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ul>
+<li><p>在实例化的时候，就必须声明泛型具体是一个什么类型。</p>
+</li>
+<li><p>使用泛型、通配符提高了代码的复用性。</p>
+</li>
+<li><p>把一个对象分为声明、使用两部分的话。泛型侧重于类型的声明上代码复用，通配符则侧重于使用上的代码复用。泛型用于定义内部数据类型的不确定性，通配符则用于定义使用的对象类型不确定性。</p>
+</li>
+<li><p>如果类型参数在方法声明中只出现一次，可以用通配符代替它。</p>
+</li>
+<li><p>不能同时声明泛型通配符上界和下界。</p>
+</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://www.StephenYue.com/2017/11/20/generic-type/" data-id="cjacksyp50000t0vi9zx1fyyc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/11/20/generic-type/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/基础知识/">基础知识</a></p>
+                            <p class="item-title"><a href="/2017/11/20/generic-type/" class="title">JAVA泛型</a></p>
+                            <p class="item-date"><time datetime="2017-11-20T14:12:12.428Z" itemprop="datePublished">2017-11-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/基础知识/">基础知识</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/泛型/" style="font-size: 10px;">泛型</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Stephen Yue<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
